@@ -2,14 +2,14 @@
 
 Folder Structure of our Project  
 
-.
-├── configs
-│   ├── alertmanager.yml
-│   ├── prometheus.yml
-│   └── rules.yml
-├── deployment.yml
-├── permissions
-│   └── permissions.yml
+.  
+├── configs  
+│   ├── alertmanager.yml  
+│   ├── prometheus.yml  
+│   └── rules.yml  
+├── deployment.yml  
+├── permissions  
+│   └── permissions.yml  
 └── README.md  
 
 ## Hello App with Exporter  
