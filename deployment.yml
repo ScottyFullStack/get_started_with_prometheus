@@ -1,0 +1,97 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2020-03-12T23:25:18Z"
+    generation: 1
+    labels:
+      app: prometheus
+    name: prometheus
+    namespace: default
+    resourceVersion: "61653"
+    selfLink: /apis/apps/v1/namespaces/default/deployments/prometheus
+    uid: 63d11ba2-4caf-45c5-953f-d404812aec9a
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: prometheus
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: prometheus
+      spec:
+        serviceAccountName: prometheus-sa
+        containers:
+        - image: prom/prometheus
+          imagePullPolicy: IfNotPresent
+          name: prometheus
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - name: prometheus
+              mountPath: /etc/prometheus/
+            - name: rules
+              mountPath: /etc/rules/      
+        - image: prom/alertmanager
+          imagePullPolicy: IfNotPresent
+          name: alertmanager
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - name: alertmanager
+              mountPath: /etc/alertmanager/
+        volumes: 
+        - name: rules
+          configMap:
+            defaultMode: 420
+            name: rules
+        - name: prometheus
+          configMap: 
+            defaultMode: 420
+            name: prometheus
+        - name: alertmanager
+          configMap: 
+            defaultMode: 420
+            name: alertmanager
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2020-03-12T23:25:20Z"
+      lastUpdateTime: "2020-03-12T23:25:20Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2020-03-12T23:25:18Z"
+      lastUpdateTime: "2020-03-12T23:25:20Z"
+      message: ReplicaSet "prometheus-79d4cb85d5" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
