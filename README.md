@@ -25,5 +25,3 @@ This is so that Prometheus can access the metrics of our hello.py app.
 
 ## ./deployment.yml
 This is the deployment yaml for Prometheus. This includes a container for both Prometheus and Alertmanager, as well as Volume definitions tied to our configs mentioned above.  
-
-# That's all there is to it. Happy Learning!
